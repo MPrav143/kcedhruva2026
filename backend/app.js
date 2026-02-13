@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://localhost:5173', // Vite default port
+    origin: 'http://localhost:5173' || process.env.CLIENT_URL, // Vite default port
     credentials: true
 }));
 app.use(helmet({
