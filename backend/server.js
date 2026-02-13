@@ -24,3 +24,13 @@ module.exports = async (req, res) => {
     await connectDatabase();
     return app(req, res);
 };
+
+// Start server if run directly (Local Development)
+if (require.main === module) {
+    connectDatabase().then(() => {
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    });
+}
