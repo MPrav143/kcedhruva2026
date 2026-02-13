@@ -324,22 +324,15 @@ const ManageEvents = () => {
                                         <option value="Technical">Technical</option>
                                         <option value="Cultural">Cultural</option>
                                         <option value="Sports">Sports</option>
+                                        <option value="Workshop">Workshop</option>
+                                        <option value="Hackathon">Hackathon</option>
+                                        <option value="Ideathon">Ideathon</option>
+                                        <option value="Paper Presentation">Paper Presentation</option>
+                                        <option value="Project Presentation">Project Presentation</option>
                                         <option value="Live-In Concert">Live-In Concert</option>
-                                        <option value="Non Technical">Non Technical</option>
                                     </select>
 
-                                    {/* Event Type Dropdown - Show for Technical */}
-                                    {formData.category === 'Technical' && (
-                                        <select name="eventType" value={formData.eventType} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-blue-500 outline-none transition-colors [&>option]:bg-[#1a1a1a] [&>option]:text-white">
-                                            <option value="Normal">Normal</option>
-                                            <option value="Hackathon">Hackathon</option>
-                                            <option value="Workshop">Workshop</option>
-                                            <option value="Hands-on">Hands-on</option>
-                                            <option value="Ideathon">Ideathon</option>
-                                            <option value="Paper Presentation">Paper Presentation</option>
-                                            <option value="Project Presentation">Project Presentation</option>
-                                        </select>
-                                    )}
+
 
                                     {/* Department Field - Always show if Technical or if subcategory maps to it */}
                                     {/* Department Field - Conditional Rendering based on Category */}

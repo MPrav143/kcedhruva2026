@@ -40,15 +40,15 @@ export const DEPARTMENTS = [
         image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80'
     },
     {
-        code: 'EEE-VLSI',
-        name: 'Department of Electrical and Electronics Engineering (VLSI)',
+        code: 'ETE & VLSI',
+        name: 'Department of Electronics and Telecommunication Engineering & VLSI',
         image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80'
     },
-    {
-        code: 'ETE',
-        name: 'Department of Electronics and Telecommunication Engineering',
-        image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80'
-    },
+    // {
+    //     code: 'ETE',
+    //     name: 'Department of Electronics and Telecommunication Engineering',
+    //     image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80'
+    // },
     {
         code: 'IT',
         name: 'Department of Information Technology',
