@@ -1,33 +1,26 @@
 require('dotenv').config();
+
 const app = require('./app');
 const connectDB = require('./config/db');
 
-const PORT = process.env.PORT || 5000;
+let isConnected = false;
 
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-    console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-    console.log(err.name, err.message);
-    process.exit(1);
-});
-
-// Connect to Database
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+// Connect to database (only once per cold start)
+const connectDatabase = async () => {
+    if (!isConnected) {
         try {
-            const PassModel = require('./models/Pass');
-            console.log('DEBUG: Pass Schema Price Type:', PassModel.schema.paths.price.instance);
-        } catch (e) {
-            console.log('DEBUG: Error checking Pass schema:', e.message);
+            await connectDB();
+            isConnected = true;
+            console.log('MongoDB connected');
+        } catch (error) {
+            console.error('Database connection failed:', error);
+            throw error;
         }
-    });
-});
+    }
+};
 
-
-// Handle unhandled rejections
-process.on('unhandledRejection', (err) => {
-    console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-    console.log(err.name, err.message);
-    process.exit(1);
-});
+// Export serverless function
+module.exports = async (req, res) => {
+    await connectDatabase();
+    return app(req, res);
+};
