@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getImageUrl } from '../utils/imageUtils';
+import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../utils/config';
 import { motion } from 'framer-motion';
 import { useGlobalConfig } from '../context/GlobalConfigContext';
 
 const PastEvents = () => {
     const { config } = useGlobalConfig();
+    const navigate = useNavigate();
     const [events, setEvents] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -14,7 +17,7 @@ const PastEvents = () => {
         const fetchPastEvents = async () => {
             try {
                 const { data } = await axios.get(
-                    'http://localhost:5000/api/content/pastEvents'
+                    `${API_URL}/content/pastEvents`
                 );
                 setEvents(data);
             } catch (error) {

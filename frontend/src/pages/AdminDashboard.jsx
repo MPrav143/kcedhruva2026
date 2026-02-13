@@ -33,12 +33,15 @@ const AdminDashboard = () => {
     const token = localStorage.getItem('adminToken');
     const config = { headers: { Authorization: `Bearer ${token}` } };
 
+    // Import API Config
+    const { API_URL } = require('../utils/config');
+
     useEffect(() => {
         const fetchStats = async () => {
             try {
                 const [statsRes, allRegRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/auth/stats', config),
-                    axios.get('http://localhost:5000/api/registrations/all', config)
+                    axios.get(`${API_URL}/auth/stats`, config),
+                    axios.get(`${API_URL}/registrations/all`, config)
                 ]);
 
                 setStats({
@@ -144,7 +147,7 @@ const AdminDashboard = () => {
                             <button
                                 onClick={async () => {
                                     try {
-                                        const response = await axios.get('http://localhost:5000/api/registrations/export', {
+                                        const response = await axios.get(`${API_URL}/registrations/export`, {
                                             headers: { Authorization: `Bearer ${token}` },
                                             responseType: 'blob',
                                         });

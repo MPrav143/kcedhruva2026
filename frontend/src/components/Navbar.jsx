@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import axios from 'axios';
 import { useGlobalConfig } from '../context/GlobalConfigContext';
+import { BASE_URL } from '../utils/config';
 
 const Navbar = () => {
     const { config } = useGlobalConfig();
@@ -74,7 +75,7 @@ const Navbar = () => {
                     <div className="flex-shrink-0 flex items-center">
                         <Link to="/" className="flex items-center gap-2">
                             <img
-                                src={config.navbar_logo ? (config.navbar_logo.startsWith('http') ? config.navbar_logo : `http://localhost:5000${config.navbar_logo}`) : "https://upload.wikimedia.org/wikipedia/commons/a/7/React-icon.svg"}
+                                src={config.navbar_logo ? (config.navbar_logo.startsWith('http') ? config.navbar_logo : `${BASE_URL}${config.navbar_logo}`) : "https://upload.wikimedia.org/wikipedia/commons/a/7/React-icon.svg"}
                                 alt="Dhruva Logo"
                                 className="h-20 w-auto object-contain"
                             />

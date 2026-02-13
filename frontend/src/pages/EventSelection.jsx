@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useGlobalConfig } from '../context/GlobalConfigContext';
+import { API_URL } from '../utils/config';
 
 const EventSelection = () => {
     const location = useLocation();
@@ -35,7 +36,7 @@ const EventSelection = () => {
         e.preventDefault();
         setSubmitting(true);
         try {
-            const { data: regData } = await axios.post('http://localhost:5000/api/registrations', {
+            const { data: regData } = await axios.post(`${API_URL}/registrations`, {
                 passId: pass._id,
                 eventIds: [], // No specific events selected
                 ...formData
@@ -50,7 +51,7 @@ const EventSelection = () => {
                 description: `Payment for ${pass.name}`,
                 handler: async function (response) {
                     try {
-                        await axios.post('http://localhost:5000/api/payment/verify', {
+                        await axios.post(`${API_URL}/payment/verify`, {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature,
@@ -72,7 +73,7 @@ const EventSelection = () => {
 
             // Order creation logic (optional/if enabled)
             try {
-                const { data: order } = await axios.post('http://localhost:5000/api/payment/order', {
+                const { data: order } = await axios.post(`${API_URL}/payment/order`, {
                     amount: regData.amount,
                     receipt: regData.registrationId
                 });

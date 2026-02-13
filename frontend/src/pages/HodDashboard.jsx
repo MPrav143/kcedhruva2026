@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import Sidebar from '../components/Sidebar';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import EventDetailsModal from '../components/EventDetailsModal';
+import { API_URL } from '../utils/config';
 
 const HodDashboard = () => {
     const [data, setData] = useState(null);
@@ -24,7 +25,7 @@ const HodDashboard = () => {
     const fetchDepartmentData = async () => {
         try {
             const token = localStorage.getItem('adminToken');
-            const { data } = await axios.get('http://localhost:5000/api/auth/stats', {
+            const { data } = await axios.get(`${API_URL}/auth/stats`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setData(data);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Plus, Search, X, Edit, Trash2 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import Loader from '../components/Loader';
+import { API_URL } from '../utils/config';
 
 const ManagePasses = () => {
     const [passes, setPasses] = useState([]);
@@ -27,7 +28,7 @@ const ManagePasses = () => {
 
     const fetchPasses = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/passes');
+            const { data } = await axios.get(`${API_URL}/passes`);
             setPasses(data);
             setLoading(false);
         } catch (error) {
@@ -60,9 +61,9 @@ const ManagePasses = () => {
         e.preventDefault();
         try {
             if (currentPass) {
-                await axios.put(`http://localhost:5000/api/passes/${currentPass._id}`, formData, config);
+                await axios.put(`${API_URL}/passes/${currentPass._id}`, formData, config);
             } else {
-                await axios.post('http://localhost:5000/api/passes', formData, config);
+                await axios.post(`${API_URL}/passes`, formData, config);
             }
             setShowModal(false);
             fetchPasses();
@@ -89,7 +90,7 @@ const ManagePasses = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this pass?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/passes/${id}`, config);
+                await axios.delete(`${API_URL}/passes/${id}`, config);
                 alert('Pass deleted successfully');
                 fetchPasses();
             } catch (error) {

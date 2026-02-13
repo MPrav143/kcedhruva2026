@@ -1,6 +1,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../utils/config';
 
 const GlobalConfigContext = createContext();
 
@@ -22,9 +23,9 @@ export const GlobalConfigProvider = ({ children }) => {
     const fetchConfig = async () => {
         try {
             const [confRes, sponsorsRes, clubsRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/upload'),
-                axios.get('http://localhost:5000/api/content/sponsors'),
-                axios.get('http://localhost:5000/api/content/clubs')
+                axios.get(`${API_URL}/upload`),
+                axios.get(`${API_URL}/content/sponsors`),
+                axios.get(`${API_URL}/content/clubs`)
             ]);
 
             setConfig(prev => ({

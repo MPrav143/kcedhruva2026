@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import { Ticket, CheckCircle, ArrowRight } from 'lucide-react';
+import { API_URL } from '../utils/config';
 
 const Passes = ({ embed = false }) => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Passes = ({ embed = false }) => {
     useEffect(() => {
         const fetchPasses = async () => {
             try {
-                const { data } = await axios.get('http://localhost:5000/api/passes');
+                const { data } = await axios.get(`${API_URL}/passes`);
                 setPasses(data.filter(p => p.isActive));
                 setLoading(false);
             } catch (error) {

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Loader from '../components/Loader';
+import { API_URL, BASE_URL } from '../utils/config';
 
 const EventDetail = () => {
     const { id } = useParams();
@@ -19,7 +20,7 @@ const EventDetail = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:5000/api/events/${id}`);
+                const { data } = await axios.get(`${API_URL}/events/${id}`);
                 setEvent(data);
                 setLoading(false);
             } catch (error) {
@@ -45,7 +46,7 @@ const EventDetail = () => {
         setLoadingParticipants(true);
         try {
             const token = localStorage.getItem('adminToken');
-            const { data } = await axios.get(`http://localhost:5000/api/registrations/events/${id}`, {
+            const { data } = await axios.get(`${API_URL}/registrations/events/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setParticipants(data);
@@ -59,7 +60,7 @@ const EventDetail = () => {
     const handleDownloadCSV = async () => {
         try {
             const token = localStorage.getItem('adminToken');
-            const response = await axios.get(`http://localhost:5000/api/registrations/events/${id}/export`, {
+            const response = await axios.get(`${API_URL}/registrations/events/${id}/export`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob'
             });
@@ -103,7 +104,7 @@ const EventDetail = () => {
                     {/* Left Side: Image & Tags */}
                     <div className="lg:w-2/5 h-[400px] lg:h-auto relative shrink-0">
                         <img
-                            src={event.image ? (event.image.startsWith('http') ? event.image : `http://localhost:5000${event.image}`) : 'https://via.placeholder.com/800x600?text=Event+Poster'}
+                            src={event.image ? (event.image.startsWith('http') ? event.image : `${BASE_URL}${event.image}`) : 'https://via.placeholder.com/800x600?text=Event+Poster'}
                             alt={event.title}
                             className="w-full h-full object-cover"
                             onError={(e) => { e.target.src = 'https://via.placeholder.com/800x600?text=Event+Poster'; }}

@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import Sidebar from '../components/Sidebar';
 import EventDetailsModal from '../components/EventDetailsModal';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { API_URL } from '../utils/config';
 
 const DEPT_FULL_NAMES = {
     'CSE': 'Department of Computer Science and Engineering',
@@ -41,7 +42,7 @@ const PrincipalDashboard = () => {
     const fetchStats = async () => {
         try {
             const token = localStorage.getItem('adminToken');
-            const { data } = await axios.get('http://localhost:5000/api/auth/stats', {
+            const { data } = await axios.get(`${API_URL}/auth/stats`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setStats(data);
@@ -65,7 +66,7 @@ const PrincipalDashboard = () => {
         const fetchEvents = async () => {
             try {
                 const token = localStorage.getItem('adminToken');
-                const { data } = await axios.get('http://localhost:5000/api/events', {
+                const { data } = await axios.get(`${API_URL}/events`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setAllEvents(data);

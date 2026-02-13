@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import { getImageUrl } from '../utils/imageUtils';
 import { Calendar, MapPin, Clock } from 'lucide-react';
+import { API_URL } from '../utils/config';
 
 const LiveConcert = () => {
     const [events, setEvents] = useState([]);
@@ -13,7 +14,7 @@ const LiveConcert = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const { data } = await axios.get('http://localhost:5000/api/events');
+                const { data } = await axios.get(`${API_URL}/events`);
                 const concertEvents = data.filter(e => e.category === 'Live-In Concert');
                 setEvents(concertEvents);
                 setLoading(false);

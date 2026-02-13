@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Image as ImageIcon, Save, Loader as LoaderIcon, Link as LinkIcon, ExternalLink } from 'lucide-react';
 import { getImageUrl } from '../utils/imageUtils';
+import { API_URL } from '../utils/config';
 import Sidebar from '../components/Sidebar';
 import Loader from '../components/Loader';
 
@@ -28,7 +29,7 @@ const ManageImages = () => {
 
     const fetchConfigs = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/upload');
+            const { data } = await axios.get(`${API_URL}/upload`);
             setConfigs(data);
             // Initialize inputs with fetched values
             const initialInputs = {};
@@ -59,7 +60,7 @@ const ManageImages = () => {
             const isImageSection = sections.some(s => s.key === key); // Helper to determine type
             const type = isImageSection ? 'image' : 'text';
 
-            await axios.post('http://localhost:5000/api/content/config', { key, value: urlToSave, type }, config);
+            await axios.post(`${API_URL}/content/config`, { key, value: urlToSave, type }, config);
             setConfigs(prev => ({ ...prev, [key]: urlToSave }));
             setUpdating(prev => ({ ...prev, [key]: false }));
             setMessage({ type: 'success', text: `Successfully updated ${key}` });
@@ -87,7 +88,7 @@ const ManageImages = () => {
                 }
             };
 
-            const { data } = await axios.post(`http://localhost:5000/api/upload/${key}`, formData, config);
+            const { data } = await axios.post(`${API_URL}/upload/${key}`, formData, config);
             const imageUrl = data.data.value;
 
             setConfigs(prev => ({ ...prev, [key]: imageUrl }));

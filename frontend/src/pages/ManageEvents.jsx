@@ -8,6 +8,7 @@ import EventDetailsModal from '../components/EventDetailsModal';
 import { useParams, Link } from 'react-router-dom';
 import { getImageUrl } from '../utils/imageUtils';
 import { DEPARTMENTS, CULTURAL_SUBCATEGORIES } from '../utils/constants';
+import { API_URL } from '../utils/config';
 
 const ManageEvents = () => {
     const { category, subcategory } = useParams();
@@ -50,7 +51,7 @@ const ManageEvents = () => {
 
     const fetchEvents = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/events');
+            const { data } = await axios.get(`${API_URL}/events`);
             setEvents(data);
             setLoading(false);
         } catch (error) {
@@ -84,7 +85,7 @@ const ManageEvents = () => {
         try {
             const formDataUpload = new FormData();
             formDataUpload.append('image', file);
-            const { data } = await axios.post('http://localhost:5000/api/upload/generic/file', formDataUpload, {
+            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formDataUpload, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -127,9 +128,9 @@ const ManageEvents = () => {
             };
 
             if (currentEvent) {
-                await axios.put(`http://localhost:5000/api/events/${currentEvent._id}`, payload, config);
+                await axios.put(`${API_URL}/events/${currentEvent._id}`, payload, config);
             } else {
-                await axios.post('http://localhost:5000/api/events', payload, config);
+                await axios.post(`${API_URL}/events`, payload, config);
             }
             setShowModal(false);
             resetForm();
@@ -143,7 +144,7 @@ const ManageEvents = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/events/${id}`, config);
+                await axios.delete(`${API_URL}/events/${id}`, config);
                 fetchEvents();
             } catch (error) {
                 console.error(error);

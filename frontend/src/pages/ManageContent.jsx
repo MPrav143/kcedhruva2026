@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import { getImageUrl } from '../utils/imageUtils';
 import { Save, Plus, Trash2, Pencil, Link as LinkIcon } from 'lucide-react';
 import { useGlobalConfig } from '../context/GlobalConfigContext';
+import { API_URL } from '../utils/config';
 
 const ManageContent = () => {
     const { refreshConfig, config: siteConfig } = useGlobalConfig();
@@ -38,10 +39,10 @@ const ManageContent = () => {
     const fetchData = async () => {
         try {
             const [confRes, sponsorsRes, clubsRes, pastEventsRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/upload'),
-                axios.get('http://localhost:5000/api/content/sponsors'),
-                axios.get('http://localhost:5000/api/content/clubs'),
-                axios.get('http://localhost:5000/api/content/pastEvents')
+                axios.get(`${API_URL}/upload`),
+                axios.get(`${API_URL}/content/sponsors`),
+                axios.get(`${API_URL}/content/clubs`),
+                axios.get(`${API_URL}/content/pastEvents`)
             ]);
 
             setRules(confRes.data['rules_content'] || '');
@@ -98,7 +99,7 @@ const ManageContent = () => {
     // --- RULES & CONTACT HANDLERS ---
     const saveConfig = async (key, value) => {
         try {
-            await axios.post('http://localhost:5000/api/content/config', { key, value }, config);
+            await axios.post(`${API_URL}/content/config`, { key, value }, config);
             alert('Saved successfully!');
             refreshConfig(); // Refresh global context
             fetchData();
@@ -118,9 +119,9 @@ const ManageContent = () => {
             let logoUrl = getEmbedLink(itemForm.logo);
             const payload = { ...itemForm, logo: logoUrl };
             if (editingItem) {
-                await axios.put(`http://localhost:5000/api/content/${type}s/${editingItem._id}`, payload, config);
+                await axios.put(`${API_URL}/content/${type}s/${editingItem._id}`, payload, config);
             } else {
-                await axios.post(`http://localhost:5000/api/content/${type}s`, payload, config);
+                await axios.post(`${API_URL}/content/${type}s`, payload, config);
             }
             setItemForm({ name: '', logo: '', description: '' });
             setEditingItem(null);
@@ -143,9 +144,9 @@ const ManageContent = () => {
             const payload = { ...pastEventForm, image: imageUrl };
 
             if (editingPastEvent) {
-                await axios.put(`http://localhost:5000/api/content/pastEvents/${editingPastEvent._id}`, payload, config);
+                await axios.put(`${API_URL}/content/pastEvents/${editingPastEvent._id}`, payload, config);
             } else {
-                await axios.post('http://localhost:5000/api/content/pastEvents', payload, config);
+                await axios.post(`${API_URL}/content/pastEvents`, payload, config);
             }
             setPastEventForm({ title: '', image: '', description: '' });
             setEditingPastEvent(null);
@@ -159,7 +160,7 @@ const ManageContent = () => {
     const handlePastEventDelete = async (id) => {
         if (window.confirm('Delete this event?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/content/pastEvents/${id}`, config);
+                await axios.delete(`${API_URL}/content/pastEvents/${id}`, config);
                 fetchData();
             } catch (error) {
                 console.error(error);
@@ -172,7 +173,7 @@ const ManageContent = () => {
         try {
             const formData = new FormData();
             formData.append('image', file);
-            const { data } = await axios.post('http://localhost:5000/api/upload/generic/file', formData, {
+            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -192,7 +193,7 @@ const ManageContent = () => {
         try {
             const formData = new FormData();
             formData.append('image', file);
-            const { data } = await axios.post('http://localhost:5000/api/upload/generic/file', formData, {
+            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -211,7 +212,7 @@ const ManageContent = () => {
         try {
             const formData = new FormData();
             formData.append('image', file);
-            const { data } = await axios.post('http://localhost:5000/api/upload/generic/file', formData, {
+            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -232,7 +233,7 @@ const ManageContent = () => {
 
     const deleteItem = async (id, type) => {
         if (window.confirm('Delete this item?')) {
-            await axios.delete(`http://localhost:5000/api/content/${type}s/${id}`, config);
+            await axios.delete(`${API_URL}/content/${type}s/${id}`, config);
             refreshConfig(); // Refresh global context
             fetchData();
         }

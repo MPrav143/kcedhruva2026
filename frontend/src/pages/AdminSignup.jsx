@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, Building, Briefcase, ChevronDown } from 'lucide-react';
+import { API_URL } from '../utils/config';
 
 const AdminSignup = () => {
     const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ const AdminSignup = () => {
         }
 
         try {
-            await axios.post('http://localhost:5000/api/auth/setup', formData);
+            await axios.post(`${API_URL}/auth/setup`, formData);
 
             // Auto login or redirect to login
             // For now, redirect to login with a success message (could use state or toast)

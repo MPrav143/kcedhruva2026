@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { X, Calendar, MapPin, User, Mail, Phone, Info, Clock, Tag, Building2, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_URL, BASE_URL } from '../utils/config';
 
 const EventDetailsModal = ({ event, onClose, showRegister = false, isAdminView = false }) => {
     const [participants, setParticipants] = React.useState([]);
@@ -21,7 +22,7 @@ const EventDetailsModal = ({ event, onClose, showRegister = false, isAdminView =
         setLoadingParticipants(true);
         try {
             const token = localStorage.getItem('adminToken');
-            const { data } = await axios.get(`http://localhost:5000/api/registrations/events/${event._id}`, {
+            const { data } = await axios.get(`${API_URL}/registrations/events/${event._id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setParticipants(data);
@@ -35,7 +36,7 @@ const EventDetailsModal = ({ event, onClose, showRegister = false, isAdminView =
     const handleDownloadCSV = async () => {
         try {
             const token = localStorage.getItem('adminToken');
-            const response = await axios.get(`http://localhost:5000/api/registrations/events/${event._id}/export`, {
+            const response = await axios.get(`${API_URL}/registrations/events/${event._id}/export`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob'
             });
@@ -69,7 +70,7 @@ const EventDetailsModal = ({ event, onClose, showRegister = false, isAdminView =
                     {/* Left Side: Image & Tags */}
                     <div className="md:w-2/5 h-64 md:h-auto relative shrink-0">
                         <img
-                            src={event.image ? (event.image.startsWith('http') ? event.image : `http://localhost:5000${event.image}`) : 'https://via.placeholder.com/800x600?text=Event+Poster'}
+                            src={event.image ? (event.image.startsWith('http') ? event.image : `${BASE_URL}${event.image}`) : 'https://via.placeholder.com/800x600?text=Event+Poster'}
                             alt={event.title}
                             className="w-full h-full object-cover"
                             onError={(e) => { e.target.src = 'https://via.placeholder.com/800x600?text=Event+Poster'; }}

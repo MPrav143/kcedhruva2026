@@ -13,6 +13,7 @@ import PastEvents from '../components/PastEvents';
 import DepartmentCard from '../components/DepartmentCard';
 import Passes from './Passes';
 import { DEPARTMENTS } from '../utils/constants';
+import { API_URL } from '../utils/config';
 const Home = () => {
     const { config } = useGlobalConfig();
     const [events, setEvents] = useState([]);
@@ -41,7 +42,7 @@ const Home = () => {
 
         const fetchEvents = async () => {
             try {
-                const { data } = await axios.get('http://localhost:5000/api/events');
+                const { data } = await axios.get(`${API_URL}/events`);
                 setEvents(data);
 
                 const now = new Date();

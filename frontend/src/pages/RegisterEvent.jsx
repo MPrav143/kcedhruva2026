@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import { getImageUrl } from '../utils/imageUtils';
 import { Calendar, MapPin, User, Phone, BookOpen, Clock, ExternalLink, IndianRupee } from 'lucide-react';
+import { API_URL } from '../utils/config';
 
 const RegisterEvent = () => {
     const { eventId } = useParams();
@@ -16,7 +17,7 @@ const RegisterEvent = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:5000/api/events/${eventId}`);
+                const { data } = await axios.get(`${API_URL}/events/${eventId}`);
                 setEvent(data);
                 setLoading(false);
             } catch (error) {
