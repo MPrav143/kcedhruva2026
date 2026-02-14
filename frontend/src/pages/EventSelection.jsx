@@ -126,14 +126,18 @@ const EventSelection = () => {
                                 <option value="">Select Dept</option>
 
                                 {/* Core Engineering */}
-                                <option value="CSE">CSE - Computer Science & Engineering</option>
-                                <option value="ECE">ECE - Electronics & Communication Engineering</option>
-                                <option value="EEE">EEE - Electrical & Electronics Engineering</option>
-                                <option value="MECH">MECH - Mechanical Engineering</option>
-                                <option value="CIVIL">CIVIL - Civil Engineering</option>
-                                <option value="IT">IT - Information Technology</option>
-                                <option value="CHEM">CHEM - Chemical Engineering</option>
-                                <option value="BIOTECH">BIOTECH - Biotechnology</option>
+                                <option value="AIDS">AIDS</option>
+                                <option value="CIVIL">CIVIL</option>
+                                <option value="CSD">CSD</option>
+                                <option value="CSE">CSE</option>
+                                <option value="CST">CST</option>
+                                <option value="ECE">ECE</option>
+                                <option value="EEE">EEE</option>
+                                <option value="EEE-VLSI">EEE-VLSI</option>
+                                <option value="MECH">MECH</option>
+                                <option value="IT">IT</option>
+                                <option value="CHEM">CHEM</option>
+                                <option value="BIOTECH">BIOTECH</option>
 
                                 {/* Core Sciences */}
                                 <option value="PHYSICS">Physics</option>
@@ -145,18 +149,6 @@ const EventSelection = () => {
                                 <option value="BCom">B.Com - Commerce</option>
                                 <option value="BBA">BBA - Business Administration</option>
                                 <option value="MBA">MBA - Master of Business Administration</option>
-
-                                {/* Arts & Humanities */}
-                                <option value="ENGLISH">English</option>
-                                <option value="ECONOMICS">Economics</option>
-                                <option value="HISTORY">History</option>
-                                <option value="POLITICAL_SCIENCE">Political Science</option>
-                                <option value="PSYCHOLOGY">Psychology</option>
-
-                                {/* Law & Medical */}
-                                <option value="LLB">LLB - Law</option>
-                                <option value="MBBS">MBBS - Medicine</option>
-                                <option value="NURSING">Nursing</option>
 
                             </select>
 
