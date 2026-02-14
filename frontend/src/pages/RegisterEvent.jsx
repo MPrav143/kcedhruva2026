@@ -56,6 +56,7 @@ const RegisterEvent = () => {
                         </div>
 
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 lg:col-span-2 w-full">
+
                             <h3 className="text-xl font-bold border-b border-white/10 pb-3">Event Details</h3>
                             <p className="text-gray-300 leading-relaxed">{event.description}</p>
 

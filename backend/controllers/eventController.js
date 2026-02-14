@@ -77,6 +77,7 @@ const updateEvent = async (req, res) => {
         const event = await Event.findById(req.params.id);
 
         if (event) {
+            console.log('Update Event Body:', req.body);
             // Check if updating generic fields
             const { title, description, category, eventType, club, department, date, venue, image, pptTemplateUrl, registrationFee, coordinators, facultyCoordinators, studentCoordinators, artistName, timings, prize, rules, rounds, winnerPrize, runnerPrize, fromTime, toTime } = req.body;
 
