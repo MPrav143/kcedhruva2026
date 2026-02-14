@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Youtube, Instagram, Linkedin } from 'lucide-react';
 import MarqueePkg from 'react-fast-marquee';
 import { useLocation } from 'react-router-dom';
 import { getImageUrl } from '../utils/imageUtils';
@@ -35,7 +35,7 @@ const Footer = () => {
 
             {/* Club Logos Marquee */}
             {clubs.length > 0 && (
-                <section className="py-10 bg-white/5 border-y border-white/10">
+                <section className="py-10 bg-black/5 border-y border-white/10">
                     <h3 className="text-3xl font-bold text-center mb-16 shadow-lg">Our Clubs</h3>
                     <Marquee gradient={false} speed={40}>
                         {clubs.map(club => (
@@ -43,7 +43,7 @@ const Footer = () => {
                                 <img
                                     src={getImageUrl(club.logo)}
                                     alt={club.name}
-                                    className="h-16 w-auto object-contain"
+                                    className="h-25 w-auto object-contain"
                                 />
                             </div>
                         ))}
@@ -83,14 +83,14 @@ const Footer = () => {
                         <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-4">
                             {config.website_name || 'DHRUVA'} {config.event_year || '2026'}
                         </h2>
-                        <p className="text-gray-400 text-sm leading-relaxed">
+                        <p className="text-gray-400 leading-relaxed">
                             The ultimate technical, cultural, and sports festival celebrating talent, innovation, and spirit.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="text-lg font-bold text-white mb-6">Quick Links</h3>
-                        <ul className="space-y-3 text-sm text-gray-400">
+                        <ul className="space-y-3 text-gray-400">
                             <li><a href="/events" className="hover:text-blue-400 transition-colors">Events</a></li>
                             <li><a href="/passes" className="hover:text-blue-400 transition-colors">Get Passes</a></li>
                             <li><a href="/register" className="hover:text-blue-400 transition-colors">Register</a></li>

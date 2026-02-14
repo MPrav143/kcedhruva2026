@@ -196,7 +196,7 @@ const Home = () => {
                                     leading-tight
                                     bg-gradient-to-r from-violet-400 to-blue-500
                                     bg-clip-text text-transparent">
-                                {config.website_name || 'Experience'} the <br /> Extraordinary
+                                {config.website_name || 'Experience'}<br /> The Extraordinary
                             </h2>
 
 
@@ -255,12 +255,12 @@ const Home = () => {
                                     <div
                                         key={cat.name}
                                         onClick={() => handleCategoryClick(cat.name)}
-                                        className="group relative h-80 bg-gradient-to-br laywrite-nz-basic-light from-white/5 to-white/0 border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:border-blue-500/50 transition-all duration-300"
+                                        className="group relative aspect-[4/3] h-auto bg-gradient-to-br laywrite-nz-basic-light from-white/5 to-white/0 border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:border-blue-500/50 transition-all duration-300"
                                     >
                                         <img
                                             src={getImageUrl(config[cat.key] || cat.default)}
                                             alt={cat.name}
-                                            className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 group-hover:scale-110 transition-all duration-500"
+                                            className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-70 group-hover:scale-110 transition-all duration-500"
                                         />
                                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all" />
                                         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
