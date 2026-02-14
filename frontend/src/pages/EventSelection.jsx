@@ -131,6 +131,7 @@ const EventSelection = () => {
                                 <option value="CSD">CSD</option>
                                 <option value="CSE">CSE</option>
                                 <option value="CST">CST</option>
+                                <option value="CSECS">CSE(CY)</option>
                                 <option value="ECE">ECE</option>
                                 <option value="EEE">EEE</option>
                                 <option value="EEE-VLSI">EEE-VLSI</option>

@@ -5,10 +5,10 @@ const DepartmentCard = ({ dept, stats, onClick }) => {
     return (
         <div
             onClick={onClick}
-            className="group h-[22rem] rounded-2xl border-black overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col border border-gray-100"
+            className="group h-full rounded-2xl border-black overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col border border-gray-100"
         >
-            {/* Top Section - Image (1/3) */}
-            <div className="h-1/3 w-full relative overflow-hidden">
+            {/* Top Section - Image (Aspect Ratio 4:3) */}
+            <div className="aspect-[4/3] w-full relative overflow-hidden">
                 <img
                     src={getImageUrl(dept.image)}
                     alt={dept.name}
@@ -17,9 +17,9 @@ const DepartmentCard = ({ dept, stats, onClick }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
             </div>
 
-            {/* Bottom Section - Content (2/3) */}
+            {/* Bottom Section - Content (Flexible) */}
             {/* Added 'group' class here to control children on hover */}
-            <div className="h-2/3 p-6 flex flex-col items-center group hover:bg-blue-400 transition-all duration-300 text-center rounded-xl bg-white/5 backdrop-blur-xl border-t border-white/10 justify-between cursor-pointer">
+            <div className="flex-1 p-6 flex flex-col items-center group hover:bg-blue-400 transition-all duration-300 text-center rounded-xl bg-white/5 backdrop-blur-xl border-t border-white/10 justify-between cursor-pointer">
 
                 <div className="w-full">
                     {/* Changed to text-white and added group-hover:text-black */}

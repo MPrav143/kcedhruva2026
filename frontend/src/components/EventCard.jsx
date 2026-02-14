@@ -4,7 +4,7 @@ import { getImageUrl } from '../utils/imageUtils';
 const EventCard = ({ event, onEdit, onDelete, onView }) => {
     return (
         <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:transform hover:scale-[1.02] transition-all duration-300 group">
-            <div className="h-48 overflow-hidden relative">
+            <div className="aspect-[4/3] w-full overflow-hidden relative">
                 <img
                     src={getImageUrl(event.image) || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80'}
                     alt={event.title}
