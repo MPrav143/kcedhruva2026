@@ -64,7 +64,35 @@ const RegisterEvent = () => {
                                     <h4 className="text-blue-400 font-bold mb-2 flex items-center gap-2">
                                         <BookOpen size={16} /> Rules & Regulations
                                     </h4>
-                                    <p className="text-gray-300 text-sm whitespace-pre-wrap">{event.rules}</p>
+                                    <div className="text-gray-300 text-sm whitespace-pre-wrap pl-4">
+                                        {Array.isArray(event.rules) ? (
+                                            <ul className="list-disc space-y-1">
+                                                {event.rules.map((rule, idx) => (
+                                                    <li key={idx}>{rule}</li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p>{event.rules}</p>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {event.rounds && event.rounds.length > 0 && (
+                                <div className="bg-purple-900/10 border border-purple-500/20 p-4 rounded-xl mt-4">
+                                    <h4 className="text-purple-400 font-bold mb-3 flex items-center gap-2">
+                                        <Calendar size={16} /> Rounds & Structure
+                                    </h4>
+                                    <div className="space-y-3">
+                                        {Array.isArray(event.rounds) ? event.rounds.map((round, index) => (
+                                            <div key={index} className="bg-white/5 p-3 rounded-lg border border-white/5">
+                                                <h5 className="font-bold text-white text-sm mb-1">{round.name}</h5>
+                                                <p className="text-gray-400 text-xs whitespace-pre-wrap">{round.description}</p>
+                                            </div>
+                                        )) : (
+                                            <p className="text-gray-300 text-sm whitespace-pre-wrap">{event.rounds}</p>
+                                        )}
+                                    </div>
                                 </div>
                             )}
 
@@ -84,21 +112,36 @@ const RegisterEvent = () => {
                                     </div>
                                 )}
                                 {event.winnerPrize ? (
-                                    <div className="flex items-center gap-3 text-gray-300">
-                                        <IndianRupee className="text-yellow-400" size={20} />
-                                        <span>Winner: {event.winnerPrize}</span>
+                                    <div className="flex items-center gap-3 text-gray-300 col-span-2 sm:col-span-1">
+                                        <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 shrink-0">
+                                            <IndianRupee size={16} />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-400 uppercase font-bold">Winner Prize</p>
+                                            <span className="font-bold text-yellow-400">{event.winnerPrize}</span>
+                                        </div>
                                     </div>
                                 ) : null}
                                 {event.runnerPrize ? (
-                                    <div className="flex items-center gap-3 text-gray-300">
-                                        <IndianRupee className="text-gray-400" size={20} />
-                                        <span>Runner: {event.runnerPrize}</span>
+                                    <div className="flex items-center gap-3 text-gray-300 col-span-2 sm:col-span-1">
+                                        <div className="w-8 h-8 rounded-full bg-gray-500/20 flex items-center justify-center text-gray-400 shrink-0">
+                                            <IndianRupee size={16} />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-400 uppercase font-bold">Runner Prize</p>
+                                            <span className="font-bold text-gray-300">{event.runnerPrize}</span>
+                                        </div>
                                     </div>
                                 ) : (
                                     !event.winnerPrize && event.prize && (
-                                        <div className="flex items-center gap-3 text-gray-300">
-                                            <IndianRupee className="text-yellow-400" size={20} />
-                                            <span>{event.prize}</span>
+                                        <div className="flex items-center gap-3 text-gray-300 col-span-2 sm:col-span-1">
+                                            <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 shrink-0">
+                                                <IndianRupee size={16} />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-gray-400 uppercase font-bold">Prize Pool</p>
+                                                <span className="font-bold text-yellow-400">{event.prize}</span>
+                                            </div>
                                         </div>
                                     )
                                 )}
