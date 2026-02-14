@@ -37,9 +37,9 @@ const RegisterEvent = () => {
             <Navbar />
 
             <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-20">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     {/* Event Info */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="space-y-6">
                         <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden border border-white/10 group">
                             <img
                                 src={getImageUrl(event.image) || 'https://via.placeholder.com/800x400'}
@@ -74,7 +74,7 @@ const RegisterEvent = () => {
                         </button>
                     </div>
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 w-full">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 lg:col-span-2 w-full">
 
                     <h3 className="text-xl font-bold border-b border-white/10 pb-3">Event Details</h3>
                     <p className="text-gray-300 leading-relaxed">{event.description}</p>
