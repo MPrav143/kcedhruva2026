@@ -30,6 +30,9 @@ const ManageContent = () => {
     const [pastEventSubheading, setPastEventSubheading] = useState('');
     const [pastEventHighlights, setPastEventHighlights] = useState(['', '', '', '']);
 
+    // Local state for image inputs to avoid auto-save
+    const [imageValues, setImageValues] = useState({});
+
     const [loading, setLoading] = useState(true);
 
     const token = localStorage.getItem('adminToken');
@@ -77,6 +80,17 @@ const ManageContent = () => {
             setSponsors(sponsorsRes.data);
             setClubs(clubsRes.data);
             setPastEvents(pastEventsRes.data);
+
+            // Initialize imageValues from config
+            const initialImageValues = {};
+            ['cat_technical_image', 'cat_cultural_image', 'cat_sports_image'].forEach(key => {
+                initialImageValues[key] = confRes.data[key] || '';
+            });
+            ['AIDS', 'CIVIL', 'CSD', 'CSE', 'EEE', 'ECE', 'IT', 'MECH', 'MBA', 'MCA'].forEach(code => {
+                initialImageValues[`dept_${code}_image`] = confRes.data[`dept_${code}_image`] || '';
+            });
+            setImageValues(initialImageValues);
+
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -102,6 +116,8 @@ const ManageContent = () => {
             await axios.post(`${API_URL}/content/config`, { key, value }, config);
             alert('Saved successfully!');
             refreshConfig(); // Refresh global context
+            // Update local state to match saved value (optional but good for consistency)
+            setImageValues(prev => ({ ...prev, [key]: value }));
             fetchData();
         } catch (error) {
             console.error(error);
@@ -258,11 +274,18 @@ const ManageContent = () => {
                                                     </div>
                                                     <div className="flex gap-2">
                                                         <input
-                                                            defaultValue={siteConfig?.[cat.key] || ''}
-                                                            onBlur={(e) => saveConfig(cat.key, e.target.value)}
+                                                            value={imageValues[cat.key] || ''}
+                                                            onChange={(e) => setImageValues({ ...imageValues, [cat.key]: e.target.value })}
                                                             placeholder="Paste Image URL"
                                                             className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-gray-500 focus:text-white focus:border-blue-500 outline-none transition-colors"
                                                         />
+                                                        <button
+                                                            onClick={() => saveConfig(cat.key, imageValues[cat.key])}
+                                                            className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg transition-colors"
+                                                            title="Save Image URL"
+                                                        >
+                                                            <Save size={16} />
+                                                        </button>
                                                     </div>
                                                 </div>
                                             ))}
@@ -286,11 +309,18 @@ const ManageContent = () => {
                                                     </div>
                                                     <div className="flex gap-2">
                                                         <input
-                                                            defaultValue={siteConfig?.[`dept_${code}_image`] || ''}
-                                                            onBlur={(e) => saveConfig(`dept_${code}_image`, e.target.value)}
+                                                            value={imageValues[`dept_${code}_image`] || ''}
+                                                            onChange={(e) => setImageValues({ ...imageValues, [`dept_${code}_image`]: e.target.value })}
                                                             placeholder="Paste Image URL"
                                                             className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-gray-500 focus:text-white focus:border-purple-500 outline-none transition-colors"
                                                         />
+                                                        <button
+                                                            onClick={() => saveConfig(`dept_${code}_image`, imageValues[`dept_${code}_image`])}
+                                                            className="bg-purple-600 hover:bg-purple-500 text-white p-2 rounded-lg transition-colors"
+                                                            title="Save Image URL"
+                                                        >
+                                                            <Save size={16} />
+                                                        </button>
                                                     </div>
                                                 </div>
                                             ))}
