@@ -3,7 +3,16 @@ import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import Loader from '../components/Loader';
 import { Users, Calendar, DollarSign, Ticket, FileText } from 'lucide-react';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import {
+    ResponsiveContainer,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip
+} from 'recharts';
+import { API_URL } from '../utils/config';
 
 const DashboardCard = ({ title, value, icon: Icon, color }) => (
     <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl flex items-center justify-between hover:bg-white/10 transition-all group">
@@ -24,17 +33,13 @@ const AdminDashboard = () => {
         totalPasses: 0,
         totalRevenue: 0,
         recentRegistrations: [],
-        registrationTrends: []
+        registrationTrends: [],
+        allRegistrations: []
     });
     const [loading, setLoading] = useState(true);
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
-
     const token = localStorage.getItem('adminToken');
     const config = { headers: { Authorization: `Bearer ${token}` } };
-
-    // Import API Config
-    const { API_URL } = require('../utils/config');
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -48,6 +53,7 @@ const AdminDashboard = () => {
                     ...statsRes.data,
                     allRegistrations: allRegRes.data
                 });
+
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching dashboard stats:', error);
@@ -56,6 +62,23 @@ const AdminDashboard = () => {
         };
         fetchStats();
     }, []);
+
+    // Group registrations by pass name
+    const passRegistrationData = Object.values(
+        (stats.allRegistrations || []).reduce((acc, reg) => {
+            const passName = reg.pass?.name || "Unknown Pass";
+
+            if (!acc[passName]) {
+                acc[passName] = {
+                    name: passName,
+                    registrations: 0
+                };
+            }
+
+            acc[passName].registrations += 1;
+            return acc;
+        }, {})
+    );
 
     if (loading) return (
         <div className="flex min-h-screen bg-[#0a0a0a] text-white">
@@ -71,14 +94,17 @@ const AdminDashboard = () => {
             <Sidebar />
             <div className="flex-1 flex flex-col lg:ml-64">
                 <main className="flex-1 p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8">
+
                     <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                         <div>
-                            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">Dashboard</h1>
+                            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                                Dashboard
+                            </h1>
                             <p className="text-gray-400 mt-1">Welcome back, Admin</p>
                         </div>
                     </header>
 
-                    {/* Metrics Grid */}
+                    {/* Metrics */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                         <DashboardCard title="Total Events" value={stats.totalEvents} icon={Calendar} color="blue" />
                         <DashboardCard title="Real Registrations" value={stats.totalRegistrations} icon={Users} color="purple" />
@@ -86,36 +112,43 @@ const AdminDashboard = () => {
                         <DashboardCard title="Active Passes" value={stats.totalPasses} icon={Ticket} color="yellow" />
                     </div>
 
-                    {/* Analytics Charts */}
+                    {/* Pass Registration Chart */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                            <h3 className="text-lg font-bold mb-4">Registrations by Department</h3>
+                            <h3 className="text-lg font-bold mb-4">Registrations per Pass</h3>
                             <div className="h-64">
-                                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                                    <BarChart data={stats.registrationTrends}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={passRegistrationData}>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                                        <XAxis dataKey="_id" stroke="#999" />
+                                        <XAxis dataKey="name" stroke="#999" />
                                         <YAxis stroke="#999" />
-                                        <Tooltip cursor={{ fill: '#333' }} contentStyle={{ backgroundColor: '#1a1a1a', border: 'none', borderRadius: '8px' }} />
-                                        <Bar dataKey="value" fill="#8884d8" name="Students">
-                                            {stats.registrationTrends?.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Bar>
+                                        <Tooltip
+                                            cursor={{ fill: '#333' }}
+                                            contentStyle={{
+                                                backgroundColor: '#1a1a1a',
+                                                border: 'none',
+                                                borderRadius: '8px'
+                                            }}
+                                        />
+                                        <Bar
+                                            dataKey="registrations"
+                                            fill="#8884d8"
+                                            barSize={40}
+                                        />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
                         </div>
-                        {/* Can add more charts here if backend provides more data */}
                     </div>
 
+                    {/* Site Config Shortcut */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                         <div onClick={() => window.location.href = '/admin/content'} className="cursor-pointer">
                             <DashboardCard title="Site Config" value="Content" icon={FileText} color="cyan" />
                         </div>
                     </div>
 
-                    {/* Recent Activity */}
+                    {/* Recent Registrations */}
                     <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6">
                         <h2 className="text-xl font-bold mb-4">Recent Registrations (Paid)</h2>
                         <div className="space-y-4">
@@ -128,8 +161,12 @@ const AdminDashboard = () => {
                                             <Users size={18} />
                                         </div>
                                         <div>
-                                            <p className="font-medium">{reg.studentName} - {reg.pass?.name || 'Pass'}</p>
-                                            <p className="text-xs text-gray-500">{new Date(reg.createdAt).toLocaleString()}</p>
+                                            <p className="font-medium">
+                                                {reg.studentName} - {reg.pass?.name || 'Pass'}
+                                            </p>
+                                            <p className="text-xs text-gray-500">
+                                                {new Date(reg.createdAt).toLocaleString()}
+                                            </p>
                                         </div>
                                     </div>
                                     <div className="text-right">
@@ -140,92 +177,7 @@ const AdminDashboard = () => {
                             ))}
                         </div>
                     </div>
-                    {/* All Registrations Table */}
-                    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 mb-8">
-                        <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                            <h2 className="text-xl font-bold">All Registrations</h2>
-                            <button
-                                onClick={async () => {
-                                    try {
-                                        const response = await axios.get(`${API_URL}/registrations/export`, {
-                                            headers: { Authorization: `Bearer ${token}` },
-                                            responseType: 'blob',
-                                        });
-                                        const url = window.URL.createObjectURL(new Blob([response.data]));
-                                        const link = document.createElement('a');
-                                        link.href = url;
-                                        link.setAttribute('download', 'all_registrations.csv');
-                                        document.body.appendChild(link);
-                                        link.click();
-                                    } catch (err) {
-                                        console.error("Export failed", err);
-                                        alert("Failed to download CSV");
-                                    }
-                                }}
-                                className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all text-sm font-bold"
-                            >
-                                <FileText size={16} /> Download CSV
-                            </button>
-                        </div>
 
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="text-gray-400 text-sm border-b border-white/10">
-                                        <th className="p-3">Ticket ID</th>
-                                        <th className="p-3">Student</th>
-                                        <th className="p-3">Pass</th>
-                                        <th className="p-3">Dept/Year</th>
-                                        <th className="p-3">Contact</th>
-                                        <th className="p-3">Status</th>
-                                        <th className="p-3">Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-sm">
-                                    {loading ? (
-                                        <tr><td colSpan="7" className="p-4 text-center">Loading...</td></tr>
-                                    ) : stats.allRegistrations?.length === 0 ? (
-                                        <tr><td colSpan="7" className="p-4 text-center text-gray-500">No registrations found</td></tr>
-                                    ) : (
-                                        stats.allRegistrations?.slice(0, 50).map((reg) => (
-                                            <tr key={reg._id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                                                <td className="p-3 font-mono text-xs text-gray-400">{reg.ticketId || reg._id.slice(-6)}</td>
-                                                <td className="p-3">
-                                                    <div className="font-medium">{reg.studentName}</div>
-                                                    <div className="text-xs text-gray-500">{reg.rollNumber}</div>
-                                                </td>
-                                                <td className="p-3">
-                                                    <div className="text-blue-400">{reg.pass?.name}</div>
-                                                    <div className="text-[10px] text-gray-500">ID: {reg.pass?._id.slice(-6)}</div>
-                                                </td>
-                                                <td className="p-3 text-gray-300">{reg.department} - {reg.year}</td>
-                                                <td className="p-3">
-                                                    <div>{reg.email}</div>
-                                                    <div className="text-xs text-gray-500">{reg.phone}</div>
-                                                </td>
-                                                <td className="p-3">
-                                                    <span className={`px-2 py-1 rounded-full text-xs font-bold ${reg.paymentStatus === 'Completed' ? 'bg-green-500/20 text-green-400' :
-                                                        reg.paymentStatus === 'Failed' ? 'bg-red-500/20 text-red-400' :
-                                                            'bg-yellow-500/20 text-yellow-400'
-                                                        }`}>
-                                                        {reg.paymentStatus}
-                                                    </span>
-                                                </td>
-                                                <td className="p-3 font-medium">₹{reg.amount}</td>
-                                            </tr>
-                                        ))
-                                    )}
-                                    {stats.allRegistrations?.length > 50 && (
-                                        <tr>
-                                            <td colSpan="7" className="p-3 text-center text-gray-500 text-xs">
-                                                Showing recent 50 of {stats.allRegistrations.length}. Download CSV for full list.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </main>
             </div>
         </div>

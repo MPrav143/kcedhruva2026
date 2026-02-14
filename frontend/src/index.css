@@ -3,15 +3,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100..400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
 
 @import "tailwindcss";
+
+:root {
+  font-family: 'Outfit', sans-serif;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
 
 /* Light body text style */
 .inter-light-text {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-weight: 300;
-    /* Light weight */
     font-style: normal;
 }
 
@@ -19,7 +32,6 @@
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-weight: 700;
-    /* Light weight */
     font-style: normal;
 }
 
@@ -82,4 +94,24 @@
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.font-outfit {
+    font-family: 'Outfit', sans-serif;
+}
+
+.font-space {
+    font-family: 'Space Grotesk', sans-serif;
 }

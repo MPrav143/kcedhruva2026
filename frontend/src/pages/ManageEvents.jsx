@@ -31,8 +31,8 @@ const ManageEvents = () => {
         club: '',
         image: '',
         pptTemplateUrl: '',
-        rounds: '',
-        rules: '',
+        rounds: [{ name: '', description: '' }],
+        rules: [''],
         fromTime: '', // Added fromTime
         toTime: '',   // Added toTime
         winnerPrize: '', // Added winner prize
@@ -80,24 +80,7 @@ const ManageEvents = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleFileUpload = async (file) => {
-        if (!file) return;
-        try {
-            const formDataUpload = new FormData();
-            formDataUpload.append('image', file);
-            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formDataUpload, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            setFormData(prev => ({ ...prev, image: data.url }));
-            alert('Image uploaded successfully!');
-        } catch (error) {
-            console.error(error);
-            alert('Error uploading image');
-        }
-    };
+
 
     const handleCoordinatorChange = (index, field, value, type) => {
         const listName = type === 'faculty' ? 'facultyCoordinators' : 'studentCoordinators';
@@ -115,6 +98,38 @@ const ManageEvents = () => {
         const listName = type === 'faculty' ? 'facultyCoordinators' : 'studentCoordinators';
         const newCoordinators = formData[listName].filter((_, i) => i !== index);
         setFormData({ ...formData, [listName]: newCoordinators });
+    };
+
+    // Rounds Handling
+    const handleRoundChange = (index, field, value) => {
+        const newRounds = [...formData.rounds];
+        newRounds[index][field] = value;
+        setFormData({ ...formData, rounds: newRounds });
+    };
+
+    const addRound = () => {
+        setFormData({ ...formData, rounds: [...formData.rounds, { name: '', description: '' }] });
+    };
+
+    const removeRound = (index) => {
+        const newRounds = formData.rounds.filter((_, i) => i !== index);
+        setFormData({ ...formData, rounds: newRounds });
+    };
+
+    // Rules Handling
+    const handleRuleChange = (index, value) => {
+        const newRules = [...formData.rules];
+        newRules[index] = value;
+        setFormData({ ...formData, rules: newRules });
+    };
+
+    const addRule = () => {
+        setFormData({ ...formData, rules: [...formData.rules, ''] });
+    };
+
+    const removeRule = (index) => {
+        const newRules = formData.rules.filter((_, i) => i !== index);
+        setFormData({ ...formData, rules: newRules });
     };
 
     const handleSubmit = async (e) => {
@@ -178,8 +193,8 @@ const ManageEvents = () => {
             club: event.club || '',
             image: event.image,
             pptTemplateUrl: event.pptTemplateUrl || '',
-            rounds: event.rounds || '',
-            rules: event.rules || '',
+            rounds: Array.isArray(event.rounds) && event.rounds.length > 0 ? event.rounds : [{ name: '', description: '' }],
+            rules: Array.isArray(event.rules) && event.rules.length > 0 ? event.rules : [''],
             fromTime: fromTime,
             toTime: toTime,
             winnerPrize: event.winnerPrize || '',
@@ -210,8 +225,8 @@ const ManageEvents = () => {
             club: '',
             image: '',
             pptTemplateUrl: '',
-            rounds: '',
-            rules: '',
+            rounds: [{ name: '', description: '' }],
+            rules: [''],
             fromTime: '',
             toTime: '',
             winnerPrize: '',
@@ -414,17 +429,7 @@ const ManageEvents = () => {
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-3 focus:border-blue-500 outline-none transition-colors"
                                             />
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <label className="flex-1 bg-white/5 border border-white/10 border-dashed rounded-xl p-2 text-center cursor-pointer hover:bg-white/10 transition-colors">
-                                                <span className="text-xs text-gray-400">Or Upload Poster</span>
-                                                <input
-                                                    type="file"
-                                                    className="hidden"
-                                                    accept="image/*"
-                                                    onChange={(e) => handleFileUpload(e.target.files[0])}
-                                                />
-                                            </label>
-                                        </div>
+
                                     </div>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
@@ -438,9 +443,48 @@ const ManageEvents = () => {
                                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-3 focus:border-blue-500 outline-none transition-colors"
                                         />
                                     </div>
-                                    <textarea name="rounds" value={formData.rounds} onChange={handleChange} placeholder="Event Rounds (e.g. Round 1: MCQ, Round 2: Coding...)" rows="3" className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-blue-500 outline-none transition-colors" />
+                                    {/* Rounds */}
+                                    <div>
+                                        <h3 className="text-lg font-semibold mb-3 text-purple-400">Rounds</h3>
+                                        {formData.rounds.map((round, index) => (
+                                            <div key={index} className="space-y-3 mb-4 p-3 bg-white/5 rounded-xl border border-white/5 relative">
+                                                <input
+                                                    value={round.name}
+                                                    onChange={(e) => handleRoundChange(index, 'name', e.target.value)}
+                                                    placeholder={`Round ${index + 1} Title`}
+                                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm"
+                                                />
+                                                <textarea
+                                                    value={round.description}
+                                                    onChange={(e) => handleRoundChange(index, 'description', e.target.value)}
+                                                    placeholder="Round Description"
+                                                    rows="2"
+                                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm"
+                                                />
+                                                <button type="button" onClick={() => removeRound(index)} className="absolute top-2 right-2 p-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20"><Trash2 size={16} /></button>
+                                            </div>
+                                        ))}
+                                        <button type="button" onClick={addRound} className="w-full px-4 py-2 bg-purple-500/10 text-purple-400 rounded-lg hover:bg-purple-500/20 font-medium text-sm transition-colors border border-purple-500/20">+ Add Round</button>
+                                    </div>
+
+                                    {/* Rules */}
+                                    <div>
+                                        <h3 className="text-lg font-semibold mb-3 text-orange-400">Rules</h3>
+                                        {formData.rules.map((rule, index) => (
+                                            <div key={index} className="flex gap-2 mb-2">
+                                                <input
+                                                    value={rule}
+                                                    onChange={(e) => handleRuleChange(index, e.target.value)}
+                                                    placeholder={`Rule ${index + 1}`}
+                                                    className="flex-1 bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm"
+                                                />
+                                                <button type="button" onClick={() => removeRule(index)} className="p-2.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20"><Trash2 size={18} /></button>
+                                            </div>
+                                        ))}
+                                        <button type="button" onClick={addRule} className="w-full px-4 py-2 bg-orange-500/10 text-orange-400 rounded-lg hover:bg-orange-500/20 font-medium text-sm transition-colors border border-orange-500/20">+ Add Rule</button>
+                                    </div>
+
                                     <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows="3" className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-blue-500 outline-none transition-colors" required />
-                                    <textarea name="rules" value={formData.rules} onChange={handleChange} placeholder="Rules" rows="3" className="w-full bg-white/5 border border-white/10 rounded-xl p-3 focus:border-blue-500 outline-none transition-colors" />
                                 </div>
                             </div>
 

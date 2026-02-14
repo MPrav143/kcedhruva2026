@@ -214,26 +214,43 @@ const EventDetail = () => {
                                     </div>
                                 </section>
 
-                                {event.rounds && (
+                                {event.rounds && event.rounds.length > 0 && (
                                     <section>
                                         <h3 className="text-xl font-bold mb-4 flex items-center gap-3 text-purple-400">
                                             <Calendar size={22} />
                                             Rounds & Structure
                                         </h3>
-                                        <div className="text-gray-300 leading-relaxed bg-purple-500/5 p-6 rounded-2xl border border-purple-500/10 whitespace-pre-wrap font-mono text-sm theme-rounds">
-                                            {event.rounds}
+                                        <div className="space-y-4">
+                                            {Array.isArray(event.rounds) ? event.rounds.map((round, index) => (
+                                                <div key={index} className="bg-purple-500/5 p-6 rounded-2xl border border-purple-500/10">
+                                                    <h4 className="text-lg font-bold text-white mb-2">{round.name}</h4>
+                                                    <p className="text-gray-300 font-mono text-sm whitespace-pre-wrap">{round.description}</p>
+                                                </div>
+                                            )) : (
+                                                <div className="text-gray-300 leading-relaxed bg-purple-500/5 p-6 rounded-2xl border border-purple-500/10 whitespace-pre-wrap font-mono text-sm theme-rounds">
+                                                    {event.rounds}
+                                                </div>
+                                            )}
                                         </div>
                                     </section>
                                 )}
 
-                                {event.rules && (
+                                {event.rules && event.rules.length > 0 && (
                                     <section>
                                         <h3 className="text-xl font-bold mb-4 flex items-center gap-3 text-orange-400">
                                             <Tag size={22} />
                                             Rules & Guidelines
                                         </h3>
-                                        <div className="text-gray-300 leading-relaxed bg-orange-500/5 p-6 rounded-2xl border border-orange-500/10 whitespace-pre-wrap text-[1.05rem]">
-                                            {event.rules}
+                                        <div className="text-gray-300 leading-relaxed bg-orange-500/5 p-6 rounded-2xl border border-orange-500/10 text-[1.05rem]">
+                                            {Array.isArray(event.rules) ? (
+                                                <ul className="list-disc list-inside space-y-2">
+                                                    {event.rules.map((rule, index) => (
+                                                        <li key={index}>{rule}</li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <div className="whitespace-pre-wrap">{event.rules}</div>
+                                            )}
                                         </div>
                                     </section>
                                 )}

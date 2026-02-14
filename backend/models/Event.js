@@ -10,9 +10,15 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    rounds: {
-        type: String, // E.g., "Round 1: MCQ, Round 2: Coding..."
-    },
+    rounds: [{
+        name: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+        }
+    }],
     category: {
         type: String,
         enum: ['Technical', 'Cultural', 'Sports', 'Workshop', 'Pro-Show', 'Ideathon', 'Paper Presentation', 'Project Presentation', 'Live-In Concert'],
@@ -40,9 +46,9 @@ const eventSchema = new mongoose.Schema({
     runnerPrize: {
         type: String, // E.g., "₹3000"
     },
-    rules: {
+    rules: [{
         type: String,
-    },
+    }],
     artistName: {
         type: String, // For Live-In Concert
     },

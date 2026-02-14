@@ -168,68 +168,7 @@ const ManageContent = () => {
         }
     };
 
-    const handleFileUpload = async (file) => {
-        if (!file) return;
-        try {
-            const formData = new FormData();
-            formData.append('image', file);
-            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            setItemForm(prev => ({ ...prev, logo: data.url }));
-            alert('Image uploaded successfully!');
-        } catch (error) {
-            console.error(error);
-            alert('Error uploading image');
-        }
-    };
 
-    // Specific upload for Past Events
-    const handlePastEventImageUpload = async (file) => {
-        if (!file) return;
-        try {
-            const formData = new FormData();
-            formData.append('image', file);
-            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            setPastEventForm(prev => ({ ...prev, image: data.url }));
-        } catch (error) {
-            console.error(error);
-            alert('Error uploading image');
-        }
-    };
-
-    // Helper for generic uploads in config
-    const handleGenericUpload = async (file, setter, key) => {
-        if (!file) return;
-        try {
-            const formData = new FormData();
-            formData.append('image', file);
-            const { data } = await axios.post(`${API_URL}/upload/generic/file`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            setter(data.url);
-            await saveConfig(key, data.url);
-        } catch (error) {
-            console.error(error);
-            alert('Error uploading file');
-        }
-    };
-
-    // Kept for backward compatibility if needed, but replaced usage above
-    const handleRulesBgUpload = async (file) => {
-        await handleGenericUpload(file, setRulesBg, 'rules_bg');
-    };
 
     const deleteItem = async (id, type) => {
         if (window.confirm('Delete this item?')) {
@@ -319,20 +258,11 @@ const ManageContent = () => {
                                                     </div>
                                                     <div className="flex gap-2">
                                                         <input
-                                                            value={siteConfig?.[cat.key] || ''}
-                                                            readOnly
-                                                            placeholder="No image uploaded"
-                                                            className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-gray-500"
+                                                            defaultValue={siteConfig?.[cat.key] || ''}
+                                                            onBlur={(e) => saveConfig(cat.key, e.target.value)}
+                                                            placeholder="Paste Image URL"
+                                                            className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-gray-500 focus:text-white focus:border-blue-500 outline-none transition-colors"
                                                         />
-                                                        <label className="bg-blue-600/20 text-blue-400 border border-blue-500/30 px-3 py-2 rounded-lg cursor-pointer hover:bg-blue-600/30 transition-all">
-                                                            <Plus size={16} />
-                                                            <input
-                                                                type="file"
-                                                                className="hidden"
-                                                                accept="image/*"
-                                                                onChange={(e) => handleGenericUpload(e.target.files[0], () => { }, cat.key)}
-                                                            />
-                                                        </label>
                                                     </div>
                                                 </div>
                                             ))}
@@ -356,20 +286,11 @@ const ManageContent = () => {
                                                     </div>
                                                     <div className="flex gap-2">
                                                         <input
-                                                            value={siteConfig?.[`dept_${code}_image`] || ''}
-                                                            readOnly
-                                                            placeholder="No image"
-                                                            className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-gray-500"
+                                                            defaultValue={siteConfig?.[`dept_${code}_image`] || ''}
+                                                            onBlur={(e) => saveConfig(`dept_${code}_image`, e.target.value)}
+                                                            placeholder="Paste Image URL"
+                                                            className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-gray-500 focus:text-white focus:border-purple-500 outline-none transition-colors"
                                                         />
-                                                        <label className="bg-purple-600/20 text-purple-400 border border-purple-500/30 px-3 py-2 rounded-lg cursor-pointer hover:bg-purple-600/30 transition-all">
-                                                            <Plus size={14} />
-                                                            <input
-                                                                type="file"
-                                                                className="hidden"
-                                                                accept="image/*"
-                                                                onChange={(e) => handleGenericUpload(e.target.files[0], () => { }, `dept_${code}_image`)}
-                                                            />
-                                                        </label>
                                                     </div>
                                                 </div>
                                             ))}
@@ -426,19 +347,6 @@ const ManageContent = () => {
                                                             onChange={(e) => setAboutLogo(e.target.value)}
                                                             className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2"
                                                         />
-                                                        <label className="bg-white/5 border border-white/10 px-3 py-2 rounded-lg cursor-pointer hover:bg-white/10 transition-colors">
-                                                            <span className="text-xs">Upload</span>
-                                                            <input
-                                                                type="file"
-                                                                className="hidden"
-                                                                accept="image/*"
-                                                                onChange={async (e) => {
-                                                                    const file = e.target.files[0];
-                                                                    if (!file) return;
-                                                                    await handleGenericUpload(file, setAboutLogo, 'about_logo');
-                                                                }}
-                                                            />
-                                                        </label>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -472,19 +380,6 @@ const ManageContent = () => {
                                                         className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2"
                                                         placeholder="Image URL"
                                                     />
-                                                    <label className="bg-white/5 border border-white/10 px-3 py-2 rounded-lg cursor-pointer hover:bg-white/10 transition-colors">
-                                                        <span className="text-xs">Upload</span>
-                                                        <input
-                                                            type="file"
-                                                            className="hidden"
-                                                            accept="image/*"
-                                                            onChange={async (e) => {
-                                                                const file = e.target.files[0];
-                                                                if (!file) return;
-                                                                await handleGenericUpload(file, setAboutKceImage, 'about_kce_image');
-                                                            }}
-                                                        />
-                                                    </label>
                                                 </div>
                                                 <button onClick={() => saveConfig('about_kce_image', aboutKceImage)} className="bg-purple-600 px-4 py-2 rounded-lg font-bold text-sm">
                                                     Save KCE Image
@@ -515,15 +410,13 @@ const ManageContent = () => {
                                             </div>
                                         )}
                                         <div className="flex items-center gap-4">
-                                            <label className="bg-white/5 border border-white/10 px-4 py-2 rounded-lg cursor-pointer hover:bg-white/10 transition-colors">
-                                                <span>Upload Background Image</span>
-                                                <input
-                                                    type="file"
-                                                    className="hidden"
-                                                    accept="image/*"
-                                                    onChange={(e) => handleRulesBgUpload(e.target.files[0])}
-                                                />
-                                            </label>
+                                            <input
+                                                value={rulesBg}
+                                                onChange={(e) => setRulesBg(e.target.value)}
+                                                onBlur={() => saveConfig('rules_bg', rulesBg)}
+                                                placeholder="Background Image URL"
+                                                className="w-full bg-black/20 border border-white/10 rounded-lg p-2"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -602,17 +495,7 @@ const ManageContent = () => {
                                                     required
                                                 />
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <label className="flex-1 bg-white/5 border border-white/10 border-dashed rounded-lg p-2 text-center cursor-pointer hover:bg-white/10 transition-colors">
-                                                    <span className="text-xs text-gray-400">Or Upload File</span>
-                                                    <input
-                                                        type="file"
-                                                        className="hidden"
-                                                        accept="image/*"
-                                                        onChange={(e) => handleFileUpload(e.target.files[0])}
-                                                    />
-                                                </label>
-                                            </div>
+
 
                                             <button type="submit" className="w-full bg-blue-600 py-2 rounded-lg font-bold">Save</button>
                                             {editingItem && (
@@ -748,17 +631,7 @@ const ManageContent = () => {
                                                         />
                                                     </div>
 
-                                                    <div className="flex items-center gap-2">
-                                                        <label className="flex-1 bg-white/5 border border-white/10 border-dashed rounded-lg p-2 text-center cursor-pointer hover:bg-white/10 transition-colors">
-                                                            <span className="text-xs text-gray-400">Or Upload Image</span>
-                                                            <input
-                                                                type="file"
-                                                                className="hidden"
-                                                                accept="image/*"
-                                                                onChange={(e) => handlePastEventImageUpload(e.target.files[0])}
-                                                            />
-                                                        </label>
-                                                    </div>
+
 
                                                     <button type="submit" className="w-full bg-blue-600 py-2 rounded-lg font-bold">
                                                         {editingPastEvent ? 'Update Event' : 'Add Event'}

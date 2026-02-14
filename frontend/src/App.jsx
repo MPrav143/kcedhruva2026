@@ -43,7 +43,6 @@ function App() {
               <Route path="/live-concert" element={<LiveConcert />} />
               <Route path="/about" element={<About />} />
               <Route path="/login" element={<AdminLogin />} />
-              <Route path="/signup" element={<AdminSignup />} />
               <Route path="/admin/login" element={<Navigate to="/login" replace />} />
 
               {/* Protected Admin Routes */}
@@ -52,8 +51,6 @@ function App() {
                 <Route index element={<Navigate to="dashboard" replace />} />
                 {[
                   { path: 'dashboard', element: <AdminDashboard /> },
-                  { path: 'analytics', element: <PrincipalDashboard /> },
-                  { path: 'department', element: <HodDashboard /> },
                   { path: 'events', element: <ManageEvents /> },
                   { path: 'events/:category', element: <ManageEvents /> },
                   { path: 'events/:category/:subcategory', element: <ManageEvents /> },

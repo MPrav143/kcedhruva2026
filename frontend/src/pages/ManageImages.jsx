@@ -71,36 +71,7 @@ const ManageImages = () => {
         }
     };
 
-    const handleFileUpload = async (key, file) => {
-        if (!file) return;
-        setUpdating(prev => ({ ...prev, [key]: true }));
-        setMessage(null);
 
-        try {
-            const token = localStorage.getItem('adminToken');
-            const formData = new FormData();
-            formData.append('image', file);
-
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            };
-
-            const { data } = await axios.post(`${API_URL}/upload/${key}`, formData, config);
-            const imageUrl = data.data.value;
-
-            setConfigs(prev => ({ ...prev, [key]: imageUrl }));
-            setInputs(prev => ({ ...prev, [key]: imageUrl }));
-            setUpdating(prev => ({ ...prev, [key]: false }));
-            setMessage({ type: 'success', text: `Successfully uploaded and updated ${key}` });
-        } catch (error) {
-            console.error(error);
-            setUpdating(prev => ({ ...prev, [key]: false }));
-            setMessage({ type: 'error', text: 'Upload failed.' });
-        }
-    };
 
     return (
         <div className="flex min-h-screen bg-[#0a0a0a] text-white font-inter flex-col md:flex-row">
@@ -186,18 +157,7 @@ const ManageImages = () => {
                                             </button>
                                         </div>
 
-                                        <div className="flex items-center gap-2">
-                                            <label className="flex-1 bg-white/5 border border-white/10 border-dashed rounded-lg p-2 text-center cursor-pointer hover:bg-white/10 transition-colors">
-                                                <span className="text-xs text-gray-400">Or Click to Upload File</span>
-                                                <input
-                                                    type="file"
-                                                    className="hidden"
-                                                    accept="image/*,video/*"
-                                                    onChange={(e) => handleFileUpload(section.key, e.target.files[0])}
-                                                    disabled={updating[section.key]}
-                                                />
-                                            </label>
-                                        </div>
+
                                     </div>
                                 </div>
                             ))}
