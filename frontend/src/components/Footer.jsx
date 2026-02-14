@@ -81,7 +81,7 @@ const Footer = () => {
                 <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
                     <div>
                         <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-4">
-                            {config.website_name || 'DHRUVA'} {config.event_year || '2025'}
+                            {config.website_name || 'DHRUVA'} {config.event_year || '2026'}
                         </h2>
                         <p className="text-gray-400 text-sm leading-relaxed">
                             The ultimate technical, cultural, and sports festival celebrating talent, innovation, and spirit.
@@ -157,7 +157,7 @@ const Footer = () => {
                 </div>
 
                 <div className="relative z-10 border-t border-white/5 pt-8 text-center text-xs text-gray-500">
-                    <p>&copy; {config.event_year || '2025'} {config.website_name || 'Dhruva'} Team. All rights reserved.</p>
+                    <p>&copy; {config.event_year || '2026'} {config.website_name || 'Dhruva'} Team. All rights reserved.</p>
                 </div>
             </div>
         </footer>
