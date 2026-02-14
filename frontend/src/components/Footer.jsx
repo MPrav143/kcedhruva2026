@@ -120,10 +120,10 @@ const Footer = () => {
                         <h3 className="text-lg font-bold text-white mb-6">Follow Us</h3>
                         <div className="flex flex-col gap-4">
                             {[
-                                { Icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/kce.ac.in' },
-                                { Icon: Twitter, label: 'Twitter', href: 'https://twitter.com/kce_cbe' },
-                                { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/kce_coimbatore' },
-                                { Icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/school/karpagam-college-of-engineering' }
+                                { Icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/share/1ERFLsRYj7/' },
+                                { Icon: Youtube, label: 'Youtube', href: 'https://youtube.com/@wekceians?si=2UClrWxuRShi8Xoy' },
+                                { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/wekceians?igsh=dWc3MWE4bzVtcWF2' },
+                                { Icon: Linkedin, label: 'LinkedIn', href: 'ttps://www.linkedin.com/school/wekceians/' }
                             ].map((social, i) => (
                                 <a
                                     key={i}
