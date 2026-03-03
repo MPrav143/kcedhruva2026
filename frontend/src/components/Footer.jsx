@@ -157,7 +157,7 @@ const Footer = () => {
                                 { Icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/share/1ERFLsRYj7/' },
                                 { Icon: YoutubeIcon, label: 'Youtube', href: 'https://youtube.com/@wekceians?si=2UClrWxuRShi8Xoy' },
                                 { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/kce_dhruva?igsh=cDM5b2w2cjFpM3do' },
-                                { Icon: Linkedin, label: 'LinkedIn', href: 'ttps://www.linkedin.com/school/wekceians/' }
+                                { Icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/school/wekceians/' }
                             ].map((social, i) => (
                                 <a
                                     key={i}
