@@ -28,7 +28,7 @@ app.use(cors({
         if (!origin) return callback(null, true);
 
         const isAllowed = allowedOrigins.includes(origin) ||
-            (typeof origin === 'string' && (origin.endsWith('.vercel.app') || origin.endsWith('localhost:5173')));
+            (typeof origin === 'string' && (origin.endsWith('localhost:5173') || origin.endsWith('.kcedhruva.in')));
 
         if (isAllowed) {
             callback(null, true);

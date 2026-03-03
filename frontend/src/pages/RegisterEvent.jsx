@@ -82,7 +82,7 @@ const RegisterEvent = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="relative aspect-square rounded-3xl overflow-hidden group shadow-2xl border border-white/10"
+                        className={`relative ${['Sports', 'Cultural'].includes(event.category) ? 'aspect-[4/5]' : 'aspect-square'} rounded-3xl overflow-hidden group shadow-2xl border border-white/10`}
                     >
                         <img
                             src={getImageUrl(event.image) || 'https://via.placeholder.com/800x400'}

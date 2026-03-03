@@ -32,6 +32,9 @@ const ManageContent = () => {
     const [clubs, setClubs] = useState([]);
     const [pastEvents, setPastEvents] = useState([]);
 
+    // Popup Images
+    const [popupImages, setPopupImages] = useState([]);
+
     // New State for Content Structure
     const [pastEventDesc, setPastEventDesc] = useState('');
     const [pastEventSubheading, setPastEventSubheading] = useState('');
@@ -77,6 +80,9 @@ const ManageContent = () => {
 
             setFooterBgVideo(confRes.data['footer_bg_video'] || '');
             setFooterBgVideoMobile(confRes.data['footer_bg_video_mobile'] || '');
+
+            const pImages = confRes.data['popup_images'] || '';
+            setPopupImages(pImages ? pImages.split(',').map(p => p.trim()).filter(Boolean) : []);
 
             // Past Events Static Content
             setPastEventDesc(confRes.data['past_event_desc'] || 'Join us as we bring together vivid minds...');
@@ -233,6 +239,7 @@ const ManageContent = () => {
     const tabs = [
         { id: 'general', label: 'General Info' },
         { id: 'home_media', label: 'Home Media' },
+        { id: 'popup', label: 'Popup Images' },
         { id: 'contact', label: 'Contact Details' },
         { id: 'footer', label: 'Footer Settings' },
         { id: 'about', label: 'About Page' },
@@ -300,6 +307,56 @@ const ManageContent = () => {
                                         saveConfig('registration_open', generalConfig.registration_open);
                                     }} className="bg-blue-600 px-6 py-2 rounded-lg font-bold flex items-center gap-2">
                                         <Save size={18} /> Save General Info
+                                    </button>
+                                </div>
+                            )}
+
+                            {activeTab === 'popup' && (
+                                <div className="max-w-4xl animate-fadeIn space-y-6">
+                                    <h3 className="text-xl font-bold mb-4">Home Screen Popup Images (Max 10)</h3>
+                                    <p className="text-sm text-gray-400 mb-6">Add up to 10 images to show as a dynamic grid popup on the home screen. Recommended aspect ratio: 4:5.</p>
+
+                                    <div className="space-y-4">
+                                        {popupImages.map((imgUrl, index) => (
+                                            <div key={index} className="flex flex-col sm:flex-row gap-4 items-start bg-white/5 p-4 rounded-xl border border-white/10">
+                                                <div className="w-24 h-32 bg-black/40 rounded-lg overflow-hidden shrink-0 border border-white/5">
+                                                    {imgUrl && <img src={getImageUrl(imgUrl)} alt={`Popup ${index + 1}`} className="w-full h-full object-cover" />}
+                                                </div>
+                                                <div className="flex-1 space-y-2 w-full">
+                                                    <label className="block text-sm text-gray-400">Image {index + 1} URL</label>
+                                                    <input
+                                                        value={imgUrl}
+                                                        onChange={(e) => {
+                                                            const newImages = [...popupImages];
+                                                            newImages[index] = e.target.value;
+                                                            setPopupImages(newImages);
+                                                        }}
+                                                        placeholder="Paste Image URL or Drive Link"
+                                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-sm focus:border-blue-500 outline-none"
+                                                    />
+                                                </div>
+                                                <button
+                                                    onClick={() => setPopupImages(popupImages.filter((_, i) => i !== index))}
+                                                    className="mt-2 sm:mt-6 p-3 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500/20 transition-colors self-end sm:self-auto"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
+                                        ))}
+
+                                        {popupImages.length < 10 && (
+                                            <button
+                                                onClick={() => setPopupImages([...popupImages, ''])}
+                                                className="flex items-center justify-center gap-2 text-sm text-blue-400 font-bold mt-4 py-4 w-full border-2 border-dashed border-white/10 rounded-xl hover:border-blue-500/50 hover:bg-blue-500/5 transition-all"
+                                            >
+                                                <Plus size={18} /> Add Popup Image
+                                            </button>
+                                        )}
+                                    </div>
+                                    <button onClick={() => {
+                                        saveConfig('popup_images', popupImages.filter(p => p.trim() !== '').map(getEmbedLink).join(','));
+                                    }} className="bg-blue-600 px-6 py-3 rounded-lg font-bold flex items-center justify-center gap-2 w-full mt-8 hover:bg-blue-500 transition-all text-lg shadow-lg shadow-blue-600/20">
+                                        <Save size={20} /> Save Popup Images
                                     </button>
                                 </div>
                             )}

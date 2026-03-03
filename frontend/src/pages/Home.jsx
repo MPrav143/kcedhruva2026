@@ -16,6 +16,8 @@ import { DEPARTMENTS } from '../utils/constants';
 import { API_URL } from '../utils/config';
 import dhruvalogo from '../assets/DhruvaLogo.png';
 import Doodles from '../components/Doodles';
+import Popup from '../components/Popup';
+
 const Home = () => {
     const { config } = useGlobalConfig();
     const [events, setEvents] = useState([]);
@@ -248,6 +250,7 @@ const Home = () => {
                 </div>
             ) : (
                 <>
+                    <Popup />
                     <Navbar />
 
                     {/* Hero Section - Only show on main view or top level */}
