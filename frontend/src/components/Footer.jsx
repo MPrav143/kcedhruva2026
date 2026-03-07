@@ -28,54 +28,98 @@ const Footer = () => {
         <footer className="bg-black/50 text-white">
             {/* Sponsors Section */}
             {sponsors.length > 0 && (
-                <section className="max-w-7xl mx-auto px-4 md:px-6 py-10">
-                    <h3 className="text-3xl font-bold text-center mb-16 shadow-lg">Our Sponsors</h3>
-                    <div className="space-y-16">
-                        {["Title", "Platinum", "Gold", "Silver", "Associate"].map(tier => {
-                            const tieredSponsors = sponsors.filter(s => (s.tier === tier) || (tier === 'Silver' && !s.tier));
-                            if (tieredSponsors.length === 0) return null;
+  <section className="max-w-7xl mx-auto px-4 md:px-6 py-12">
+    
+    <h3 className="text-2xl md:text-3xl font-bold text-center mb-12">
+      Our Sponsors
+    </h3>
 
-                            return (
-                                <div key={tier} className="flex flex-col items-center">
-                                    {/* <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-[0.3em] mb-8">
-                                        {tier} {tier === 'Title' ? 'Sponsor' : 'Sponsors'}
-                                    </h4> */}
-                                    <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center">
-                                        {tieredSponsors.map(s => (
-                                            <div key={s._id} className="group flex flex-col items-center">
-                                                <div className="relative w-8 h-8 md:w-36 md:h-36 flex items-center justify-center bg-white/5 rounded-2xl p-3 md:p-4 border border-white/10 shadow-lg group-hover:border-white/30 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all duration-500 backdrop-blur-sm">
-                                                    {s.logo && /\.(mp4|webm|ogg)$/i.test(s.logo) ? (
-                                                        <video
-                                                            src={getImageUrl(s.logo)}
-                                                            autoPlay
-                                                            loop
-                                                            muted
-                                                            playsInline
-                                                            className="w-full h-full object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            src={getImageUrl(s.logo)}
-                                                            alt={s.name}
-                                                            className="w-full h-full object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
-                                                        />
-                                                    )}
-                                                </div>
-                                                <div className="text-center mt-4 transition-opacity duration-300">
-                                                    <p className="text-[10px] md:text-xs font-bold text-white uppercase tracking-wider">{s.name}</p>
-                                                    {/* <p className="text-[8px] md:text-[10px] text-blue-400 font-medium">{tier} Partner</p> */}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </section>
-            )}
+    <div className="space-y-14">
 
-            {/* Club Logos Marquee */}
+      {["Title", "Platinum", "Gold", "Silver", "Associate"].map((tier) => {
+
+        const tieredSponsors = sponsors.filter(
+          (s) => s.tier === tier || (tier === "Silver" && !s.tier)
+        )
+
+        if (tieredSponsors.length === 0) return null
+
+        return (
+          <div key={tier} className="flex flex-col items-center">
+
+            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10 lg:gap-14">
+
+              {tieredSponsors.map((s) => (
+                <div key={s._id} className="group flex flex-col items-center">
+
+                  <div className="
+                    relative
+                    w-20 h-20
+                    sm:w-24 sm:h-24
+                    md:w-32 md:h-32
+                    lg:w-36 lg:h-36
+                    flex items-center justify-center
+                    bg-white/5
+                    rounded-2xl
+                    p-3
+                    border border-white/10
+                    shadow-md
+                    backdrop-blur-sm
+                    transition-all duration-300
+                    group-hover:border-white/30
+                    group-hover:shadow-[0_0_25px_rgba(255,255,255,0.15)]
+                  ">
+
+                    {s.logo && /\.(mp4|webm|ogg)$/i.test(s.logo) ? (
+                      <video
+                        src={getImageUrl(s.logo)}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="
+                          w-full h-full object-contain
+                          opacity-80
+                          transition-all duration-300
+                          group-hover:opacity-100
+                          group-hover:scale-105
+                        "
+                      />
+                    ) : (
+                      <img
+                        src={getImageUrl(s.logo)}
+                        alt={s.name}
+                        className="
+                          w-full h-full object-contain
+                          opacity-80
+                          transition-all duration-300
+                          group-hover:opacity-100
+                          group-hover:scale-105
+                        "
+                      />
+                    )}
+
+                  </div>
+
+                  <div className="text-center mt-3">
+                    <p className="text-[11px] md:text-xs font-semibold text-white uppercase tracking-wide">
+                      {s.name}
+                    </p>
+                  </div>
+
+                </div>
+              ))}
+
+            </div>
+
+          </div>
+        )
+      })}
+
+    </div>
+  </section>
+)}
+{/* Club Logos Marquee */}
             {clubs.length > 0 && (
                 <section className="py-10 bg-black border-y border-white/10">
                     <h3 className="text-3xl font-bold text-center mb-16 shadow-lg">Our Clubs</h3>
