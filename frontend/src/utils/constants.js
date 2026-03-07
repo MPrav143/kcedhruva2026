@@ -36,7 +36,7 @@ export const DEPARTMENTS = [
     },
     {
         code: 'ETE-VLSI',
-        name: 'Department of Electronics and Telecommunication Engineering & VLSI',
+        name: 'Department of Electronics and Telecommunication Engineering & Department of Electronic Engineering - VLSI Design and Technology',
         image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80'
     },
     // {

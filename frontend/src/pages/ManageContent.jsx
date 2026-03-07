@@ -767,12 +767,23 @@ const ManageContent = () => {
                                     <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {(activeTab === 'sponsors' ? sponsors : clubs).map(item => (
                                             <div key={item._id} className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center gap-4 group">
-                                                <img
-                                                    src={getImageUrl(item.logo)}
-                                                    alt={item.name}
-                                                    className="w-16 h-16 object-contain rounded-lg bg-black/20 p-1"
-                                                    onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/64?text=Logo'; }}
-                                                />
+                                                {item.logo && /\.(mp4|webm|ogg)$/i.test(item.logo) ? (
+                                                    <video
+                                                        src={getImageUrl(item.logo)}
+                                                        className="w-16 h-16 object-contain rounded-lg bg-black/20 p-1"
+                                                        autoPlay
+                                                        loop
+                                                        muted
+                                                        playsInline
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={getImageUrl(item.logo)}
+                                                        alt={item.name}
+                                                        className="w-16 h-16 object-contain rounded-lg bg-black/20 p-1"
+                                                        onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/64?text=Logo'; }}
+                                                    />
+                                                )}
                                                 <div className="flex-1">
                                                     <h3 className="font-bold">{item.name}</h3>
                                                     {activeTab === 'sponsors' && (
