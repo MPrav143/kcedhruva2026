@@ -37,22 +37,33 @@ const Footer = () => {
 
                             return (
                                 <div key={tier} className="flex flex-col items-center">
-                                    <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-[0.3em] mb-8">
+                                    {/* <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-[0.3em] mb-8">
                                         {tier} {tier === 'Title' ? 'Sponsor' : 'Sponsors'}
-                                    </h4>
+                                    </h4> */}
                                     <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center">
                                         {tieredSponsors.map(s => (
                                             <div key={s._id} className="group flex flex-col items-center">
-                                                <div className="relative">
-                                                    <img
-                                                        src={getImageUrl(s.logo)}
-                                                        alt={s.name}
-                                                        className="object-contain transition-all group-hover:scale-110 duration-500"
-                                                    />
+                                                <div className="relative w-8 h-8 md:w-36 md:h-36 flex items-center justify-center bg-white/5 rounded-2xl p-3 md:p-4 border border-white/10 shadow-lg group-hover:border-white/30 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all duration-500 backdrop-blur-sm">
+                                                    {s.logo && /\.(mp4|webm|ogg)$/i.test(s.logo) ? (
+                                                        <video
+                                                            src={getImageUrl(s.logo)}
+                                                            autoPlay
+                                                            loop
+                                                            muted
+                                                            playsInline
+                                                            className="w-full h-full object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={getImageUrl(s.logo)}
+                                                            alt={s.name}
+                                                            className="w-full h-full object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                                                        />
+                                                    )}
                                                 </div>
-                                                <div className="text-center mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <div className="text-center mt-4 transition-opacity duration-300">
                                                     <p className="text-[10px] md:text-xs font-bold text-white uppercase tracking-wider">{s.name}</p>
-                                                    <p className="text-[8px] md:text-[10px] text-blue-400 font-medium">{tier} Partner</p>
+                                                    {/* <p className="text-[8px] md:text-[10px] text-blue-400 font-medium">{tier} Partner</p> */}
                                                 </div>
                                             </div>
                                         ))}
@@ -155,7 +166,7 @@ const Footer = () => {
                         <div className="flex flex-col gap-4">
                             {[
                                 { Icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/share/1ERFLsRYj7/' },
-                                { Icon: YoutubeIcon, label: 'Youtube', href: 'https://youtube.com/@wekceians?si=2UClrWxuRShi8Xoy' },
+                                { Icon: YoutubeIcon, label: 'Youtube', href: 'https://www.youtube.com/@wekceians?si=2UClrWxuRShi8Xoy' },
                                 { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/kce_dhruva?igsh=cDM5b2w2cjFpM3do' },
                                 { Icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/school/wekceians/' }
                             ].map((social, i) => (
